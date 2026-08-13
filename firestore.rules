@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Regole di sicurezza Firestore — progetto "Molinaro Cantieri" (autonomo)
+   Console Firebase → Firestore Database → scheda Regole → incolla → Pubblica.
+   ========================================================================== */
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function loggato()  { return request.auth != null; }
+    function profilo()  { return get(/databases/$(database)/documents/utenti/$(request.auth.uid)).data; }
+    function attivo()   { return loggato() && profilo().attivo == true; }
+    function responsabile() { return attivo() && profilo().ruolo == 'responsabile'; }
+
+    /* --- Profili utente --- */
+    match /utenti/{uid} {
+      allow read:           if loggato() && (request.auth.uid == uid || responsabile());
+      allow create, update, delete: if responsabile();
+    }
+
+    /* --- Anagrafiche gestite dal responsabile, lette da tutti gli attivi --- */
+    match /cantieri/{id}   { allow read: if attivo(); allow write: if responsabile(); }
+    match /dipendenti/{id} { allow read: if attivo(); allow write: if responsabile(); }
+    match /mezzi/{id}      { allow read: if attivo(); allow write: if responsabile(); }
+
+    /* --- Report giornalieri --- */
+    match /report/{id} {
+      allow read:   if responsabile() || (attivo() && resource.data.creatoDa == request.auth.uid);
+      allow create: if attivo()
+                    && request.resource.data.creatoDa == request.auth.uid
+                    && request.resource.data.cantiereId is string
+                    && request.resource.data.data is string;
+      allow update: if responsabile()
+                    || (attivo() && resource.data.creatoDa == request.auth.uid && resource.data.stato == 'inviato');
+      allow delete: if responsabile();
+    }
+
+    /* --- Qualifiche e catalogo --- */
+    match /qualifiche/{dipId}    { allow read: if attivo(); allow write: if responsabile(); }
+    match /catalogo_qualifiche/{id} { allow read: if attivo(); allow write: if responsabile(); }
+
+    /* --- Tutto il resto chiuso --- */
+    match /{document=**} { allow read, write: if false; }
+  }
+}
