@@ -5,7 +5,7 @@
    Dopo ogni modifica ai file, incrementa VERSIONE.
    ========================================================================== */
 
-const VERSIONE = 'v1';
+const VERSIONE = 'v2';
 const CACHE = `molinaro-cantieri-${VERSIONE}`;
 
 const GUSCIO = [

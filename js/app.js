@@ -123,6 +123,12 @@ function collegaEventi() {
 }
 
 async function logout() {
+  const ok = await conferma({
+    titolo: 'Vuoi disconnetterti?',
+    messaggio: 'Uscirai dall’app e dovrai reinserire email e password al prossimo accesso.',
+    testoOk: 'Disconnetti'
+  });
+  if (!ok) return;
   await esci();
   location.replace('index.html');
 }
