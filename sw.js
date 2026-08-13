@@ -14,7 +14,7 @@ const GUSCIO = [
   './js/firebase.js', './js/auth.js', './js/store.js', './js/ui.js',
   './js/dettatura.js', './js/app.js',
   './manifest.json',
-  './assets/logo-molinaro.png', './assets/icon-192.png', './assets/icon-512.png'
+  './assets/logo-molinaro.png', './assets/icon-192.png', './assets/icon-512.png', './assets/icon-maskable-512.png'
 ];
 
 self.addEventListener('install', (e) => {
