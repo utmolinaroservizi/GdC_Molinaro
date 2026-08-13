@@ -24,12 +24,12 @@ import {
    operazioni. La sicurezza dipende dalle regole Firestore (firestore.rules).
    -------------------------------------------------------------------------- */
 export const firebaseConfig = {
-  apiKey:            'INSERISCI_API_KEY',
-  authDomain:        'INSERISCI_PROJECT_ID.firebaseapp.com',
-  projectId:         'INSERISCI_PROJECT_ID',
-  storageBucket:     'INSERISCI_PROJECT_ID.firebasestorage.app',
-  messagingSenderId: 'INSERISCI_SENDER_ID',
-  appId:             'INSERISCI_APP_ID'
+  apiKey:            'AIzaSyCotI2s88sA3d3lI6oaR5bg9_0GWBBErcI',
+  authDomain:        'gdcmolinaro.firebaseapp.com',
+  projectId:         'gdcmolinaro',
+  storageBucket:     'gdcmolinaro.firebasestorage.app',
+  messagingSenderId: '630889544640',
+  appId:             '1:630889544640:web:0279bbb20a06b80e70a625'
 };
 
 const app = initializeApp(firebaseConfig);
